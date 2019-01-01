@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import base.ElecReportingBehavior;
 import base.ElectionObserver;
-import base.ReportingBehavior;
+
 import election.ElectionObservable;
 
 public class TexasAlwaysR implements ElecReportingBehavior {

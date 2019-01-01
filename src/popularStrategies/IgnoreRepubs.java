@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 import base.ElectionObserver;
 import base.PopReportingBehavior;
-import base.ReportingBehavior;
+
 import election.ElectionObservable;
 
 public class IgnoreRepubs implements PopReportingBehavior {

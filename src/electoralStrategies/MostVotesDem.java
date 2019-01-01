@@ -7,7 +7,7 @@ import java.util.Set;
 
 import base.ElecReportingBehavior;
 import base.ElectionObserver;
-import base.ReportingBehavior;
+
 import election.ElectionObservable;
 
 public class MostVotesDem implements ElecReportingBehavior {

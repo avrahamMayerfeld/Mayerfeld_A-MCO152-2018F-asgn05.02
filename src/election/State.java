@@ -14,13 +14,13 @@ public class State {
 	public State(int democratPopVotes, int republicanPopVotes, int electoralVotes, String statename) {
 		this.statename = statename;
 		votes = new LinkedHashMap<String,Integer>();
-		setStateElection(democratPopVotes, republicanPopVotes, electoralVotes)
+		setStateElection(democratPopVotes, republicanPopVotes, electoralVotes);
 	}
 	
 	public void setStateElection(int democratPopVotes, int republicanPopVotes, int electoralVotes) {
 		this.republicanPopVotes = republicanPopVotes;
 		this.democratPopVotes = democratPopVotes;
-		elecvotes = electoralVotes;
+		elecVotes = electoralVotes;
 		votes.put("dempop", democratPopVotes);
 		votes.put("reppop", republicanPopVotes);
 		votes.put("elec", elecVotes);

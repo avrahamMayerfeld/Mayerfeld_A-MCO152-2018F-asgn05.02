@@ -1,4 +1,8 @@
+package base;
+
+import java.util.LinkedHashMap;
+
 public interface PopReportingBehavior  {
-	//return map of vtotal votes for each state and party
+	//return map of total votes for each state and party
 	public LinkedHashMap<String,Integer> calculateVotes(LinkedHashMap<String,LinkedHashMap<String,Integer>> electionMap); 
 }

@@ -27,42 +27,43 @@ public abstract class ElectionObserver  {
     private int elecRepubVotesTtl;
     
     private String observerName;
+    
     public ElectionObserver(ElectionObservable eo, ElecReportingBehavior elec, PopReportingBehavior pop, String name){
 		
 		popStrategy = pop;
 		elecStrategy = elec;
 		popVotes = new LinkedHashMap<String,LinkedHashMap<String,Integer>>();
-		elecVotes = new LinkedHashMap<StringInteger>();
+		elecVotes = new LinkedHashMap<String,Integer>();
 		this.subject = eo;
 		this.subject.attach(this);
-		
 		observerName = name;
 	}
    //use each observer's strategies to modify the information from the election and display it
 	public void update() {
 	
-		for(Entry<String, LinkedHashMap<String, Integer>> entry: subject.getAllVotes().entrySet()) {
-		
+		for(Entry<String, LinkedHashMap<String, Integer>> entry: subject.getAllVotes().entrySet())
+		{
 			String state = entry.getKey();
 			LinkedHashMap<String,Integer> pop = new LinkedHashMap<String,Integer>();
-			LinkedHashMap<String,Integer> elec = new LinkedHashMap<String,Integer>();
+		
+			for(Entry<String,Integer> tally : entry.getValue().entrySet()) 
+			{
 			
-			for(Entry<String,Integer> tally : entry.getValue().entrySet()) {
-			
-				if(tally.getKey().contains("pop")) {
+				if(tally.getKey().contains("pop")) 
+				{
 					pop.put(tally.getKey(),tally.getValue());
 				}
-				else if(tally.getKey().contains("elec")){
-					elec.put(tally.getKey(), tally.getValue());
+				else if(tally.getKey().contains("elec"))
+				{
+					elecVotes.put(state, tally.getValue());
 			    }
 			}
 			popVotes.put(state, pop);
-			
 		}
 		
 		System.out.println(observerName + " results: ");
 		System.out.println("Expected popular vote winner: " + popularReport());
-    	System.out.println("Expected Electoral college winner:" + electoralReport());
+		System.out.println("Expected Electoral college winner:" + electoralReport());
     	legalmsg();
 	}
 
@@ -86,26 +87,27 @@ public abstract class ElectionObserver  {
 	private String electoralReport() {
 		String party = "";
 		//calculate votes
-		//
-		//use elctoral map for ech states numbers
-		//go through returned map and add states totals to dem and repub total if value is r or d
-	    elecVotes
+		//give all state votes to winner of popular vote.
+	    for(Entry<String,String> state : elecStrategy.calculateParties(popVotes).entrySet()) {
+	    	if(state.getValue().equals("democrat"))
+	    		elecDemVotesTtl += elecVotes.get(state.getKey());
+	    	else if(state.getValue().equals("republican"))
+	    		elecRepubVotesTtl += elecVotes.get(state.getKey());
+	    	else {
+	    		int half = elecVotes.get(state.getKey()) /2;
+	    		elecDemVotesTtl += half;
+	    		elecRepubVotesTtl += half;
+	    	}
+	    }
 	    
-		elecStrategy.calculateVotes(popVotes)
-		
-		elecDemVotesTtl += 
- 		elecRepubVotesTtl += 
-		
- 		
- 		
- 		//return winner		
+		//return winner		
 		if(elecDemVotesTtl > elecRepubVotesTtl)
 		  	party = "the Democrat candidate.";
 		else if(elecDemVotesTtl < elecRepubVotesTtl)
 		 	party = "the Republican candidate.";
 	 	else
 		  		party = ("too close to call.");
-		 return party;
+		return party;
 	}
 
 	public void legalmsg() {
