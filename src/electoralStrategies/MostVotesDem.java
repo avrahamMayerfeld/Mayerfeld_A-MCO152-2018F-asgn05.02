@@ -14,79 +14,54 @@ public class MostVotesDem implements ElecReportingBehavior {
 	@Override
 	public String calculateWinner(LinkedHashMap<String, LinkedHashMap<String, Integer>> popElectionMap,
 			LinkedHashMap<String, Integer> elecElectionMap) {
-		
-		return null;
-	}
-	
-		LinkedHashMap<String,Integer> total = new LinkedHashMap<String,Integer>();
-		int demV = 0;
-		int repV = 0;
-		//state with most votes goes democrat 
-		//find state with most votes
-		LinkedHashMap<String,Integer> statesTotals = new LinkedHashMap<String,Integer>();
-		for(Entry<String,LinkedHashMap<String, Integer>> state: electionMap.entrySet())
-		{   int votes = 0;
-		    
-			for(Entry<String,Integer> party : state.getValue().entrySet()) 
+		int elecDemVotesTtl = 0;
+		int elecRepubVotesTtl= 0;
+		String maxStateName = "";
+		int maxElec = 0;
+		for(Entry<String, LinkedHashMap<String, Integer>> state : popElectionMap.entrySet())
+		{
+			if(maxElec == 0 ||state.getValue().get("elec")> maxElec) 
 			{
-				votes += party.getValue();
+					maxStateName = state.getKey();
 			}
-			statesTotals.put(state.getKey(), votes);
 		}
-		Entry<String, Integer> maxEntry = null;
-		for(Entry<String, Integer> state: statesTotals.entrySet()) {
-			if (maxEntry == null || state.getValue().compareTo(maxEntry.getValue()) > 0)
+		
+		LinkedHashMap<String, String> states = new LinkedHashMap<String, String>();
+		for(Entry<String, LinkedHashMap<String, Integer>> state : popElectionMap.entrySet())
+		{
+			if(state.getKey().equals(maxStateName))
+			{
+				elecDemVotesTtl += elecElectionMap.get(state.getKey());
+			}
+			else 
+			{	
+				LinkedHashMap<String, Integer> parties = state.getValue();
+				if(parties.get("dempop") > parties.get("reppop"))
+					elecDemVotesTtl += elecElectionMap.get(state.getKey());
+				else if(parties.get("dempop") < parties.get("reppop"))	
+					elecRepubVotesTtl += elecElectionMap.get(state.getKey());
+				else if(parties.get("dempop") == parties.get("reppop"))	
 				{
-					maxEntry = state;
-				}
+		    		int half = elecElectionMap.get(state.getKey()) /2;
+		    		elecDemVotesTtl += half;
+		    		elecRepubVotesTtl += half;
+		    	}
 			}
-		
-		
-		for(Entry<String,LinkedHashMap<String, Integer>> state: electionMap.entrySet()) {
-			if(state.equals(maxEntry)) {
-				LinkedHashMap<String,Integer> local = new LinkedHashMap<String,Integer>();
-				for (Entry <String,Integer> party : state.getValue().entrySet()) 
-					 local.put(party.getKey(),party.getValue());
-				int r = local.get("repelec");
-			    int d = local.get("demelec");
-			  //change votes if necessary, not too drastically to avoid suspicion
-				if (r > d) {
-					int dif = r-d;
-				r -= (int)(dif/2);
-				d += (int)(dif/2);
-				r-=2;
-				d+=2;
-				electionMap.get(state.getKey()).put("repelec", r);
-				electionMap.get(state.getKey()).put("demelec", d);
-				}
-				//break to avoid changing more than one state if there are two with most votes amount
-				break;
-			}
-		}
-		
-		//calcculate based on new map
-		for(Entry<String,LinkedHashMap<String, Integer>> state: electionMap.entrySet()) {
-			for(Entry<String,Integer> party : state.getValue().entrySet()) {
-				if(party.getKey().contains("d")) {
-					demV += party.getValue();
-				}
-				else if(party.getKey().contains("r")) {
-					repV += party.getValue();
-				}
-			}
-		}
-		
-		total.put("dem", demV);
-		total.put("rep", repV);
-		
-		return total;
+		}		
+	
+		//return winner	
+		String party = " ";
+		if(elecDemVotesTtl > elecRepubVotesTtl)
+		  	party = "the Democrat candidate.";
+		else if(elecDemVotesTtl < elecRepubVotesTtl)
+		 	party = "the Republican candidate.";
+		else
+	  		party = ("too close to call.");
+		return party;
 	}
-
-
-
-
 	
-	
-
-
 }
+	
+	
+
+

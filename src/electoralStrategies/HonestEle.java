@@ -10,14 +10,14 @@ import base.ElectionObserver;
 import election.ElectionObservable;
 
 public class HonestEle implements ElecReportingBehavior {
-	private int elecDemVotesTtl;
-	private int elecRepubVotesTtl;
+	
 	@Override
 	public String calculateWinner(
 			LinkedHashMap<String, LinkedHashMap<String, Integer>> popElectionMap,
 			LinkedHashMap<String, Integer> elecElectionMap) 
 	{
-		
+		 int elecDemVotesTtl =0;
+		 int elecRepubVotesTtl=0;
 		LinkedHashMap<String, String> states = new LinkedHashMap<String, String>();
 		for(Entry<String, LinkedHashMap<String, Integer>> state : popElectionMap.entrySet())
 		{

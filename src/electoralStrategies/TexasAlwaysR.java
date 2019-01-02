@@ -3,6 +3,7 @@ package electoralStrategies;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import base.ElecReportingBehavior;
 import base.ElectionObserver;
@@ -10,41 +11,48 @@ import base.ElectionObserver;
 import election.ElectionObservable;
 
 public class TexasAlwaysR implements ElecReportingBehavior {
-
 	@Override
-	public LinkedHashMap<String, Integer> calculateVotes(LinkedHashMap<String, LinkedHashMap<String, Integer>> electionMap) {
+	public String calculateWinner(LinkedHashMap<String, LinkedHashMap<String, Integer>> popElectionMap,
+			LinkedHashMap<String, Integer> elecElectionMap) {
+		int elecDemVotesTtl = 0;
+		int elecRepubVotesTtl= 0;
 		
-		LinkedHashMap<String, Integer> texas = electionMap.get("texas");
-		int r = texas.get("repelec");
-		int d = texas.get("demelec");
-		
-		if (r < d) {
-			int dif = d-r;
-			r += (int)(dif/2);
-			d -= (int)(dif/2);
-			r+=2;
-			d-=2;
-			
-			texas.put("repelec", r);
-			texas.put("demelec", d);
-			electionMap.put("texas", texas);
+		LinkedHashMap<String, String> states = new LinkedHashMap<String, String>();
+		for(Entry<String, LinkedHashMap<String, Integer>> state : popElectionMap.entrySet())
+		{
+			if(state.getKey().equals("texas"))
+			{
+				elecRepubVotesTtl += elecElectionMap.get(state.getKey());
 			}
-		
-		LinkedHashMap<String,Integer> total = new LinkedHashMap<String,Integer>();
-		int demV = 0;
-		int repV = 0;
-		for(Entry<String,LinkedHashMap<String, Integer>> state: electionMap.entrySet()) {
-			for(Entry<String,Integer> party : state.getValue().entrySet()) {
-				if(party.getKey().contains("d")) {
-					demV += party.getValue();
-				}
-				else if(party.getKey().contains("r")) {
-					repV += party.getValue();
-				}
+			else 
+			{	
+				LinkedHashMap<String, Integer> parties = state.getValue();
+				if(parties.get("dempop") > parties.get("reppop"))
+					elecDemVotesTtl += elecElectionMap.get(state.getKey());
+				else if(parties.get("dempop") < parties.get("reppop"))	
+					elecRepubVotesTtl += elecElectionMap.get(state.getKey());
+				else if(parties.get("dempop") == parties.get("reppop"))	
+				{
+		    		int half = elecElectionMap.get(state.getKey()) /2;
+		    		elecDemVotesTtl += half;
+		    		elecRepubVotesTtl += half;
+		    	}
 			}
-		}
-		total.put("dem", demV);
-		total.put("rep", repV);
-		return total;	
+		}		
+	
+		//return winner	
+		String party = " ";
+		if(elecDemVotesTtl > elecRepubVotesTtl)
+		  	party = "the Democrat candidate.";
+		else if(elecDemVotesTtl < elecRepubVotesTtl)
+		 	party = "the Republican candidate.";
+		else
+	  		party = ("too close to call.");
+		return party;
 	}
+	
 }
+	
+	
+
+
