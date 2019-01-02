@@ -8,33 +8,61 @@ import base.ElecReportingBehavior;
 import base.ElectionObserver;
 
 import election.ElectionObservable;
-
+//two percent of republican votes become democrat
 public class TwoPercentRtoD implements ElecReportingBehavior {
 
-	@Override
-	public LinkedHashMap<String, Integer> calculateVotes(LinkedHashMap<String, LinkedHashMap<String, Integer>> electionMap) {
-	
-		LinkedHashMap<String,Integer> total = new LinkedHashMap<String,Integer>();
-	    int demV = 0;
-		int repV = 0;
-		
-		for(Entry<String,LinkedHashMap<String, Integer>> state : electionMap.entrySet()) {
-			for(Entry<String,Integer> party : state.getValue().entrySet()) {
-				if(party.getKey().contains("d")) {
-					demV += party.getValue();
-				}
-				else if(party.getKey().contains("r")) {
-					repV += party.getValue();
-				}
+			@Override
+			public String calculateWinner(
+					LinkedHashMap<String, LinkedHashMap<String, Integer>> popElectionMap,
+					LinkedHashMap<String, Integer> elecElectionMap) 
+			{
+				 int elecDemVotesTtl =0;
+				 int elecRepubVotesTtl=0;
+	            LinkedHashMap<String, LinkedHashMap<String,Integer>> copy =  new LinkedHashMap<String, LinkedHashMap<String,Integer>>();
+	            copy.putAll(popElectionMap);
+				for(Entry<String, LinkedHashMap<String, Integer>> state : copy.entrySet())
+				{
+					LinkedHashMap<String, Integer> parties = state.getValue();
+					int twoPercentR = (int) (parties.get("reppop") * .02);
+					int newR = parties.get("reppop") - twoPercentR;
+					int newD = parties.get("dempop") + twoPercentR;
+					
+					
+					if(newD > newR)
+						elecDemVotesTtl += elecElectionMap.get(state.getKey());
+					else if(newD < newR)	
+						elecRepubVotesTtl += elecElectionMap.get(state.getKey());
+					else if(newD == newR)	
+					{
+						int half;
+					    if(elecElectionMap.get(state.getKey()) % 2 == 0)
+					    {
+					    	half = elecElectionMap.get(state.getKey()) /2;
+							elecDemVotesTtl += half;
+							elecRepubVotesTtl += half;
+						}
+					    else 
+					    {
+							half = (elecElectionMap.get(state.getKey()) - 1) /2;
+							elecDemVotesTtl += half;
+							elecRepubVotesTtl += half + 1;
+						}
+			    	}
+				}		
+			
+				//return winner	
+				String party = " ";
+					if(elecDemVotesTtl > elecRepubVotesTtl)
+					  	party = "the Democrat candidate.";
+					else if(elecDemVotesTtl < elecRepubVotesTtl)
+					 	party = "the Republican candidate.";
+				 	else
+					  		party = ("too close to call.");
+					return party;
 			}
-		}
-		//two percent of republican votes goes democrat
-		int twoPercentR = (int) (repV * .02);
-		repV -= twoPercentR;
-		demV  += twoPercentR;
-		total.put("dem", demV);
-		total.put("rep", repV);
-		return total;	
-	}
 
-}
+}	
+		
+		
+
+

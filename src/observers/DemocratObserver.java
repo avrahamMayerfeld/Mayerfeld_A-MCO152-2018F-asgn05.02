@@ -5,7 +5,7 @@ import java.util.Observable;
 import base.ElecReportingBehavior;
 import base.ElectionObserver;
 import base.PopReportingBehavior;
-import base.ReportingBehavior;
+
 import election.ElectionObservable;
 import electoralStrategies.TwoPercentRtoD;
 import popularStrategies.IgnoreRepubs;

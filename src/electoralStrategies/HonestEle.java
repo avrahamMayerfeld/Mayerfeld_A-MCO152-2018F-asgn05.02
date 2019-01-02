@@ -18,7 +18,7 @@ public class HonestEle implements ElecReportingBehavior {
 	{
 		 int elecDemVotesTtl =0;
 		 int elecRepubVotesTtl=0;
-		LinkedHashMap<String, String> states = new LinkedHashMap<String, String>();
+	
 		for(Entry<String, LinkedHashMap<String, Integer>> state : popElectionMap.entrySet())
 		{
 			LinkedHashMap<String, Integer> parties = state.getValue();

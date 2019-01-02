@@ -22,11 +22,12 @@ public class MostVotesDem implements ElecReportingBehavior {
 		{
 			if(maxElec == 0 ||state.getValue().get("elec")> maxElec) 
 			{
-					maxStateName = state.getKey();
+			    maxElec = state.getValue().get("elec");
+				maxStateName = state.getKey();
 			}
 		}
 		
-		LinkedHashMap<String, String> states = new LinkedHashMap<String, String>();
+		
 		for(Entry<String, LinkedHashMap<String, Integer>> state : popElectionMap.entrySet())
 		{
 			if(state.getKey().equals(maxStateName))

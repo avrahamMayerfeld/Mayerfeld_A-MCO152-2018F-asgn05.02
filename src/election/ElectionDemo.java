@@ -19,15 +19,15 @@ public class ElectionDemo {
 		      ElectionObserver rep = new RepublicanObserver(e2060);
 	
 		      System.out.println("First vote");
-		      e2060.setAllVotes(10,10,20,20,10,10,20,20,10,10,20,20,10,10,20,20,10,10,20,10);
+		      e2060.setAllVotes(10,10,20,20,10,10,20,20,10,10,20,20,10,10,20);
 		      System.out.println();
 		      
 		      System.out.println("Second vote");
-		      e2060.setAllVotes(10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10, 10, 10, 10, 10);
+		      e2060.setAllVotes(10,10,10,10,10,10,10,10,10, 10, 10, 10, 10, 10, 10);
 		      System.out.println();
 		      
 		      System.out.println("Third vote");
-		      e2060.setAllVotes(10,10,20,20,10,10,20,20,10,10,20,20,10,10,20,20,10,10,20,10);
+		      e2060.setAllVotes(20,10,20,10,20,10,10,10,20,20,10,10,20,20,10);
 		
 	}
 }
