@@ -10,25 +10,42 @@ import base.ElectionObserver;
 import election.ElectionObservable;
 
 public class HonestEle implements ElecReportingBehavior {
-@Override
-	public LinkedHashMap<String, String> calculateParties(LinkedHashMap<String, LinkedHashMap<String, Integer>> popElectionMap) {
+	private int elecDemVotesTtl;
+	private int elecRepubVotesTtl;
+	@Override
+	public String calculateWinner(
+			LinkedHashMap<String, LinkedHashMap<String, Integer>> popElectionMap,
+			LinkedHashMap<String, Integer> elecElectionMap) 
+	{
 		
 		LinkedHashMap<String, String> states = new LinkedHashMap<String, String>();
 		for(Entry<String, LinkedHashMap<String, Integer>> state : popElectionMap.entrySet())
 		{
-			String winner = " ";
 			LinkedHashMap<String, Integer> parties = state.getValue();
 			
 			if(parties.get("dempop") > parties.get("reppop"))
-				winner = "democrat";
+				elecDemVotesTtl += elecElectionMap.get(state.getKey());
 			else if(parties.get("dempop") < parties.get("reppop"))	
-				winner = "republican";
+				elecRepubVotesTtl += elecElectionMap.get(state.getKey());
 			else if(parties.get("dempop") == parties.get("reppop"))	
-			    winner = "none";
-			states.put(state.getKey(), winner);
+			{
+	    		int half = elecElectionMap.get(state.getKey()) /2;
+	    		elecDemVotesTtl += half;
+	    		elecRepubVotesTtl += half;
+	    	}
+		}		
+	
+		//return winner	
+		String party = " ";
+			if(elecDemVotesTtl > elecRepubVotesTtl)
+			  	party = "the Democrat candidate.";
+			else if(elecDemVotesTtl < elecRepubVotesTtl)
+			 	party = "the Republican candidate.";
+		 	else
+			  		party = ("too close to call.");
+			return party;
 		}
-		
-		return states;
-	}
 
 }
+
+

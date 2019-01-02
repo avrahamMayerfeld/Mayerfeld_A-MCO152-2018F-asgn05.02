@@ -23,9 +23,7 @@ public abstract class ElectionObserver  {
 	//to process data from strategies
     private int popDemVotesTtl;
     private int popRepubVotesTtl;
-    private int elecDemVotesTtl;
-    private int elecRepubVotesTtl;
-    
+   
     private String observerName;
     
     public ElectionObserver(ElectionObservable eo, ElecReportingBehavior elec, PopReportingBehavior pop, String name){
@@ -63,7 +61,7 @@ public abstract class ElectionObserver  {
 		
 		System.out.println(observerName + " results: ");
 		System.out.println("Expected popular vote winner: " + popularReport());
-		System.out.println("Expected Electoral college winner:" + electoralReport());
+		System.out.println("Expected Electoral college winner:" + elecStrategy.calculateWinner(popVotes, elecVotes));
     	legalmsg();
 	}
 
@@ -84,31 +82,7 @@ public abstract class ElectionObserver  {
 	  	return party;
  
 	}
-	private String electoralReport() {
-		String party = "";
-		//calculate votes
-		//give all state votes to winner of popular vote.
-	    for(Entry<String,String> state : elecStrategy.calculateParties(popVotes).entrySet()) {
-	    	if(state.getValue().equals("democrat"))
-	    		elecDemVotesTtl += elecVotes.get(state.getKey());
-	    	else if(state.getValue().equals("republican"))
-	    		elecRepubVotesTtl += elecVotes.get(state.getKey());
-	    	else {
-	    		int half = elecVotes.get(state.getKey()) /2;
-	    		elecDemVotesTtl += half;
-	    		elecRepubVotesTtl += half;
-	    	}
-	    }
-	    
-		//return winner		
-		if(elecDemVotesTtl > elecRepubVotesTtl)
-		  	party = "the Democrat candidate.";
-		else if(elecDemVotesTtl < elecRepubVotesTtl)
-		 	party = "the Republican candidate.";
-	 	else
-		  		party = ("too close to call.");
-		return party;
-	}
+	
 
 	public void legalmsg() {
 		System.out.println(" All reports are purely observational and not legally binding in any way  "+new Date());

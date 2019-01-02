@@ -11,10 +11,13 @@ import base.ElectionObserver;
 import election.ElectionObservable;
 
 public class MostVotesDem implements ElecReportingBehavior {
-
 	@Override
-	public LinkedHashMap<String, Integer> calculateVotes(LinkedHashMap<String, LinkedHashMap<String, Integer>> electionMap) {
+	public String calculateWinner(LinkedHashMap<String, LinkedHashMap<String, Integer>> popElectionMap,
+			LinkedHashMap<String, Integer> elecElectionMap) {
 		
+		return null;
+	}
+	
 		LinkedHashMap<String,Integer> total = new LinkedHashMap<String,Integer>();
 		int demV = 0;
 		int repV = 0;
@@ -72,6 +75,7 @@ public class MostVotesDem implements ElecReportingBehavior {
 				}
 			}
 		}
+		
 		total.put("dem", demV);
 		total.put("rep", repV);
 		
