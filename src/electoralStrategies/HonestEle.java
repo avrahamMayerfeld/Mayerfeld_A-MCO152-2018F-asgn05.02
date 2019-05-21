@@ -16,35 +16,36 @@ public class HonestEle implements ElecReportingBehavior {
 			LinkedHashMap<String, LinkedHashMap<String, Integer>> popElectionMap,
 			LinkedHashMap<String, Integer> elecElectionMap) 
 	{
-		 int elecDemVotesTtl =0;
-		 int elecRepubVotesTtl=0;
-	
+		int elecDemVotesTtl =0;
+		int elecRepubVotesTtl=0;
+
 		for(Entry<String, LinkedHashMap<String, Integer>> state : popElectionMap.entrySet())
 		{
 			LinkedHashMap<String, Integer> parties = state.getValue();
-			
+
 			if(parties.get("dempop") > parties.get("reppop"))
 				elecDemVotesTtl += elecElectionMap.get(state.getKey());
 			else if(parties.get("dempop") < parties.get("reppop"))	
 				elecRepubVotesTtl += elecElectionMap.get(state.getKey());
 			else if(parties.get("dempop") == parties.get("reppop"))	
 			{
-	    		int half = elecElectionMap.get(state.getKey()) /2;
-	    		elecDemVotesTtl += half;
-	    		elecRepubVotesTtl += half;
-	    	}
+				int half = elecElectionMap.get(state.getKey()) /2;
+				elecDemVotesTtl += half;
+				elecRepubVotesTtl += half;
+			}
 		}		
-	
+
 		//return winner	
 		String party = " ";
-			if(elecDemVotesTtl > elecRepubVotesTtl)
-			  	party = "the Democrat candidate.";
-			else if(elecDemVotesTtl < elecRepubVotesTtl)
-			 	party = "the Republican candidate.";
-		 	else
-			  		party = ("too close to call.");
-			return party;
-		}
+		if(elecDemVotesTtl > elecRepubVotesTtl)
+			party = "the Democrat candidate.";
+		else if(elecDemVotesTtl < elecRepubVotesTtl)
+			party = "the Republican candidate.";
+		else
+			party = ("too close to call.");
+
+		return party;
+	}
 
 }
 
