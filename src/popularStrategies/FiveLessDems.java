@@ -14,7 +14,7 @@ public class FiveLessDems implements PopReportingBehavior {
 	@Override
 	public LinkedHashMap<String, Integer> calculateVotes(LinkedHashMap<String, LinkedHashMap<String, Integer>> electionMap) {
 		LinkedHashMap<String,Integer> total = new LinkedHashMap<String,Integer>();
-	    int demV = 0;
+	    	int demV = 0;
 		int repV = 0;
 		
 		for(Entry<String,LinkedHashMap<String, Integer>> state: electionMap.entrySet()) {
