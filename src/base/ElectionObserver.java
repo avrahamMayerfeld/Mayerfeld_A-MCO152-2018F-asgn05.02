@@ -20,7 +20,7 @@ public abstract class ElectionObserver  {
     //to process info from observable
     private LinkedHashMap<String,LinkedHashMap<String,Integer>> popVotes; 
     private LinkedHashMap<String,Integer> elecVotes; 
-	//to process data from strategies
+    //to process data from strategies
     private int popDemVotesTtl;
     private int popRepubVotesTtl;
    
@@ -36,7 +36,7 @@ public abstract class ElectionObserver  {
 		this.subject.attach(this);
 		observerName = name;
 	}
-   //use each observer's strategies to modify the information from the election and display it
+     //use each observer's strategies to modify the information from the election and display it
 	public void update() {
 	
 		for(Entry<String, LinkedHashMap<String, Integer>> entry: subject.getAllVotes().entrySet())
@@ -62,7 +62,7 @@ public abstract class ElectionObserver  {
 		System.out.println(observerName + " results: ");
 		System.out.println("Expected popular vote winner: " + popularReport());
 		System.out.println("Expected Electoral college winner:" + elecStrategy.calculateWinner(popVotes, elecVotes));
-    	legalmsg();
+    		legalmsg();
 	}
 
 	//place dem and repub totals returned in reporting behavior maps in the four fields in the observer to get the winning candidate
