@@ -22,7 +22,7 @@ public class MostVotesDem implements ElecReportingBehavior {
 		{
 			if(maxElec == 0 ||state.getValue().get("elec")> maxElec) 
 			{
-			    maxElec = state.getValue().get("elec");
+			 	maxElec = state.getValue().get("elec");
 				maxStateName = state.getKey();
 			}
 		}
@@ -43,10 +43,10 @@ public class MostVotesDem implements ElecReportingBehavior {
 					elecRepubVotesTtl += elecElectionMap.get(state.getKey());
 				else if(parties.get("dempop") == parties.get("reppop"))	
 				{
-		    		int half = elecElectionMap.get(state.getKey()) /2;
-		    		elecDemVotesTtl += half;
-		    		elecRepubVotesTtl += half;
-		    	}
+					int half = elecElectionMap.get(state.getKey()) /2;
+					elecDemVotesTtl += half;
+					elecRepubVotesTtl += half;
+		    		}
 			}
 		}		
 	
