@@ -10,7 +10,7 @@ import observers.RepublicanObserver;
 public class ElectionDemo {
  
 	public static void main(String[]args) {
-		   ElectionObservable e2060 = new ElectionObservable();
+		      ElectionObservable e2060 = new ElectionObservable();
               
 		      ElectionObserver dem = new DemocratObserver(e2060);
 		      ElectionObserver dr = new DemocratRepublicanObserver(e2060);
