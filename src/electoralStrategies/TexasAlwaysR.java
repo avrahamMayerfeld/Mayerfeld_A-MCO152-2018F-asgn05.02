@@ -33,10 +33,10 @@ public class TexasAlwaysR implements ElecReportingBehavior {
 					elecRepubVotesTtl += elecElectionMap.get(state.getKey());
 				else if(parties.get("dempop") == parties.get("reppop"))	
 				{
-		    		int half = elecElectionMap.get(state.getKey()) /2;
-		    		elecDemVotesTtl += half;
-		    		elecRepubVotesTtl += half;
-		    	}
+					int half = elecElectionMap.get(state.getKey()) /2;
+					elecDemVotesTtl += half;
+					elecRepubVotesTtl += half;
+		    		}
 			}
 		}		
 	
